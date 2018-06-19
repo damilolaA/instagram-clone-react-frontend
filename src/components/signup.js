@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SignUp extends Component {
 	constructor() {
@@ -6,6 +7,7 @@ class SignUp extends Component {
 		this.state = {
 			signupDetails: {
 				username: "",
+				email: "",
 				password: ""
 			},
 			errorMessages: {}
@@ -19,6 +21,8 @@ class SignUp extends Component {
 		e.preventDefault();
 
 		this.validateSignUpData();
+
+		this.signupUser();
 	}
 
 	handleChange(e) {
@@ -36,9 +40,30 @@ class SignUp extends Component {
 		for(let value in signupData) {
 			if(signupData[value] === "") {
 				errors[value] = "Please enter your " + value;
+				return this.setState(errors);
 			}
 		}
-		this.setState(errors);
+	}
+
+	signupUser() {
+		let data = this.state.signupDetails;
+
+		if(data['username'] !== "" && data['password'] !== "" && data['email'] !== "") {
+			axios({
+				method: "post",
+				url: "http://192.168.99.100:4000/api/v1/user/register",
+				data: data
+			})
+			.then(response => {
+				let { id } = response.data;
+				console.log(id);
+			})
+			.catch(error => {
+				console.log(error);
+			})
+		} else {
+			console.log('required fields not complete');
+		}
 	}
 
 	render() {
@@ -46,7 +71,9 @@ class SignUp extends Component {
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
 					<div className="insta-logo-type"></div>
+					<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
 					<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
+					<input onChange={this.handleChange} type="text" name="email" className="text-field username" placeholder="Email"/>
 					<input onChange={this.handleChange} type="password" name="password" className="text-field password" placeholder="Password"/>
 					<input type="submit" name="signup" className="def-button signup" value="Sign up"/>
 				</form>
