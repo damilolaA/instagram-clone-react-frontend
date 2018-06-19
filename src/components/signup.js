@@ -3,17 +3,42 @@ import React, { Component } from 'react';
 class SignUp extends Component {
 	constructor() {
 		super();
+		this.state = {
+			signupDetails: {
+				username: "",
+				password: ""
+			},
+			errorMessages: {}
+		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	handleSubmit() {
+	handleSubmit(e) {
+		e.preventDefault();
 
+		this.validateSignUpData();
 	}
 
-	handleChange() {
+	handleChange(e) {
+		let userDetails = this.state.signupDetails,
+				inputName = e.target.name;
 
+		userDetails[inputName] = e.target.value;
+		this.setState(userDetails);
+	}
+
+	validateSignUpData() {
+		let signupData = this.state.signupDetails,
+				errors = this.state.errorMessages;
+	
+		for(let value in signupData) {
+			if(signupData[value] === "") {
+				errors[value] = "Please enter your " + value;
+			}
+		}
+		this.setState(errors);
 	}
 
 	render() {
