@@ -71,8 +71,11 @@ class SignUp extends Component {
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
 					<div className="insta-logo-type"></div>
-					<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
-					<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
+					<div>
+						<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
+						<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
+					</div>
+					
 					<input onChange={this.handleChange} type="text" name="email" className="text-field username" placeholder="Email"/>
 					<input onChange={this.handleChange} type="password" name="password" className="text-field password" placeholder="Password"/>
 					<input type="submit" name="signup" className="def-button signup" value="Sign up"/>

@@ -46,14 +46,6 @@
     box-sizing: border-box
 }
 
-.err {
-    position: absolute;
-    top: -14px;
-    font-size: 12px;
-    left: 105px;
-    color:red;
-}
-
 .topbar {
     position: relative;
     width: 70%;
@@ -851,6 +843,14 @@
 .signup-form .text-field::placeholder {
     color: #9999a2;
     font-weight: 300
+}
+
+.signup-form .err {
+    position: absolute;
+    top: -14px;
+    font-size: 12px;
+    left: 105px;
+    color:red;
 }
 
 .signup-form .signup {
