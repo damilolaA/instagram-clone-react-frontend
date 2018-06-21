@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Login extends Component {
+	constructor() {
+		super()
+		this.state = {
+			
+		}
+	}
+
 	render() {
 		return (
 			<div id="body">
@@ -11,7 +19,7 @@ class Login extends Component {
 					<input type="submit" name="login" className="def-button login" value="Login"/>
 				</form>
 				<div className="form-pointer">
-					<p className="msg">Don't have an account? <a href="signup.html" className="link">Sign up</a></p>
+					<p className="msg">Don't have an account? <Link to="/" className="link">Sign up</Link></p>
 				</div>
 			</div>
 		);

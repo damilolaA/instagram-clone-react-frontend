@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import axios from 'axios';
 import Loading from './loader/Loading';
 
@@ -14,7 +14,7 @@ class SignUp extends Component {
 			},
 			errorMessages: {},
 			redirect: false,
-			loading: true
+			loading: false
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,20 +53,25 @@ class SignUp extends Component {
 		let data = this.state.signupDetails;
 
 		if(data['username'] !== "" && data['password'] !== "" && data['email'] !== "") {
-		//	this.setState({loading: true});
+			this.setState({loading: true});
 			axios({
 				method: "post",
 				url: "http://192.168.99.100:4000/api/v1/user/register",
 				data: data
 			})
 			.then(response => {
-			//	this.setState({loading: false});
+				this.setState({loading: false});
 				let { id } = response.data;
 				if(id) {
 					this.setState({redirect: true});
 				}
 			})
 			.catch(error => {
+				let { errorMessages } = this.state;
+
+				errorMessages.serverError = "Username or email already exists.";
+				this.setState(errorMessages);
+				this.setState({loading: false});
 				console.log(error);
 			})
 		} else {
@@ -78,13 +83,14 @@ class SignUp extends Component {
 		if(this.state.redirect) {
 			return <Redirect to="/login"/>
 		}
-		console.log(this.state.loading);
+
 		return (
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
 					<div className="insta-logo-type"></div>
 
 					<div className="input-box">
+						<p className="err">{this.state.errorMessages.serverError ? this.state.errorMessages.serverError : ""}</p>
 						<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
 						<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
 					</div>
@@ -104,9 +110,10 @@ class SignUp extends Component {
 					<div className="loading-gif">
 						{this.state.loading ? <Loading type='bars' color='#000000' /> : ""}
 					</div>
+					
 				</form>
 				<div className="form-pointer">
-					<p className="msg">Have an account? <a href="login.html" className="link">Log in</a></p>
+					<p className="msg">Have an account? <Link to="/login" className="link">Log in</Link></p>
 				</div>
 			</div>
 		);

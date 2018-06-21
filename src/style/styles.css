@@ -891,6 +891,6 @@
 }
 
 .loading-gif {
-    position: relative;
-    margin-left: 4em;
+    position: absolute;
+    margin-left: 8.2em;
 }
