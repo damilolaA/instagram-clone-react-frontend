@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SignUp from './components/signup.js';
 
-class App extends Component {
-  render() {
-    return (
-      <SignUp/>
-    );
-  }
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <div>
+          <Route exact path="/" component={SignUp}/>
+        </div>
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;
