@@ -83,7 +83,7 @@ class SignUp extends Component {
 		if(this.state.redirect) {
 			return <Redirect to="/login"/>
 		}
-
+		
 		return (
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
