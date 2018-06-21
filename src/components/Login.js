@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import Loading from './loader/Loading';
 
@@ -12,7 +12,8 @@ class Login extends Component {
 				password: ""
 			},
 			errorMessages: {},
-			loading: false
+			loading: false,
+			redirect: false
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -66,6 +67,7 @@ class Login extends Component {
 				if(token) {
 					localStorage.setItem('token', token);
 				}
+				this.setState({redirect: true});
 			})
 			.catch(error => {
 				this.setState({loading: false})
@@ -82,6 +84,9 @@ class Login extends Component {
 	}
 
 	render() {
+		if(this.state.redirect) {
+			return <Redirect to='profile'/>
+		}
 
 		return (
 			<div id="body" onSubmit={this.handleSubmit}>
@@ -104,6 +109,7 @@ class Login extends Component {
 					<div className="loading-gif">
 						{this.state.loading ? <Loading type={'bars'} color={'#000000'} /> : ""}
 					</div>
+
 				</form>
 				<div className="form-pointer">
 					<p className="msg">Don't have an account? <Link to="/" className="link">Sign up</Link></p>
