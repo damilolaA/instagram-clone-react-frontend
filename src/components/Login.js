@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Loading from './loader/Loading';
 
 class Login extends Component {
 	constructor() {
@@ -9,7 +11,8 @@ class Login extends Component {
 				username: "",
 				password: ""
 			},
-			errorMessages: {}
+			errorMessages: {},
+			loading: false
 		}
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,6 +23,8 @@ class Login extends Component {
 		e.preventDefault();
 
 		this.validateLoginDetails();
+
+		this.loginUser();
 	}
 
 	handleChange(e) {
@@ -44,6 +49,38 @@ class Login extends Component {
 		}
 	}
 
+	loginUser() {
+		let { loginDetails } = this.state;
+
+		if(loginDetails.username !== "" && loginDetails.password !== "") {
+			this.setState({loading: true});
+			axios({
+				method: "post",
+				url: "http://192.168.99.100:4000/api/v1/auth/login",
+				data: loginDetails
+			})
+			.then(response => {
+				this.setState({loading: false});
+				let { token } = response.data;
+
+				if(token) {
+					localStorage.setItem('token', token);
+				}
+			})
+			.catch(error => {
+				this.setState({loading: false})
+				let { errorMessages } = this.state;
+
+				errorMessages.authError = "Invalid username and/or password";
+				this.setState(errorMessages);
+
+				console.log(error);
+			})
+		} else {
+			console.log('missing input fields');
+		}
+	}
+
 	render() {
 
 		return (
@@ -52,6 +89,7 @@ class Login extends Component {
 					<div className="insta-logo-type"></div>
 
 					<div className="input-box">
+						<p className="err">{this.state.errorMessages.authError ? this.state.errorMessages.authError : ""}</p>
 						<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
 						<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
 					</div>
@@ -62,6 +100,10 @@ class Login extends Component {
 					</div>
 
 					<input type="submit" name="login" className="def-button login" value="Login"/>
+
+					<div className="loading-gif">
+						{this.state.loading ? <Loading type={'bars'} color={'#000000'} /> : ""}
+					</div>
 				</form>
 				<div className="form-pointer">
 					<p className="msg">Don't have an account? <Link to="/" className="link">Sign up</Link></p>
