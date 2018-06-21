@@ -1,15 +1,17 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import SignUp from './components/signup.js';
+import SignUp from './components/Signup.js';
+import Login from './components/Login.js';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <div>
+      <div>
+        <Switch>
           <Route exact path="/" component={SignUp}/>
-        </div>
-      </Switch>
+          <Route path="/login" component={Login}/>
+        </Switch>
+      </div>
     </BrowserRouter>
   );
 }
