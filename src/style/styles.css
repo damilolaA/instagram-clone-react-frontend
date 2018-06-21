@@ -889,3 +889,8 @@
 .form-pointer .link {
     color: #3897f0
 }
+
+.loading-gif {
+    position: relative;
+    margin-left: 4em;
+}

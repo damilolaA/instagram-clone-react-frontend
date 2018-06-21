@@ -14,7 +14,7 @@ class SignUp extends Component {
 			},
 			errorMessages: {},
 			redirect: false,
-			loading: false
+			loading: true
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,16 +53,16 @@ class SignUp extends Component {
 		let data = this.state.signupDetails;
 
 		if(data['username'] !== "" && data['password'] !== "" && data['email'] !== "") {
-			this.setState({loading: true});
+		//	this.setState({loading: true});
 			axios({
 				method: "post",
 				url: "http://192.168.99.100:4000/api/v1/user/register",
 				data: data
 			})
 			.then(response => {
+			//	this.setState({loading: false});
 				let { id } = response.data;
 				if(id) {
-					this.setState({loading: false});
 					this.setState({redirect: true});
 				}
 			})
@@ -78,7 +78,7 @@ class SignUp extends Component {
 		if(this.state.redirect) {
 			return <Redirect to="/login"/>
 		}
-
+		console.log(this.state.loading);
 		return (
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
@@ -100,8 +100,9 @@ class SignUp extends Component {
 					</div>
 
 					<input type="submit" name="signup" className="def-button signup" value="Sign up"/>
-					<div>
-						{this.state.loading ? <Loading/> : ""}
+					
+					<div className="loading-gif">
+						{this.state.loading ? <Loading type='bars' color='#000000' /> : ""}
 					</div>
 				</form>
 				<div className="form-pointer">
