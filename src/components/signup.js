@@ -40,7 +40,7 @@ class SignUp extends Component {
 		for(let value in signupData) {
 			if(signupData[value] === "") {
 				errors[value] = "Please enter your " + value;
-				return this.setState(errors);
+			  this.setState(errors);
 			}
 		}
 	}
@@ -67,17 +67,27 @@ class SignUp extends Component {
 	}
 
 	render() {
+		console.log(this.state.errorMessages);
 		return (
 			<div id="body" onSubmit={this.handleSubmit}>
 				<form className="signup-form">
 					<div className="insta-logo-type"></div>
-					<div>
+
+					<div className="input-box">
 						<p className="err">{this.state.errorMessages.username ? this.state.errorMessages.username : ""}</p>
 						<input onChange={this.handleChange} type="text" name="username" className="text-field username" placeholder="Username"/>
 					</div>
 					
-					<input onChange={this.handleChange} type="text" name="email" className="text-field username" placeholder="Email"/>
-					<input onChange={this.handleChange} type="password" name="password" className="text-field password" placeholder="Password"/>
+					<div className= "input-box">
+						<p className="err">{this.state.errorMessages.email ? this.state.errorMessages.email : ""}</p>
+						<input onChange={this.handleChange} type="text" name="email" className="text-field email" placeholder="Email"/>
+					</div>
+
+					<div className= "input-box">
+						<p className="err">{this.state.errorMessages.password ? this.state.errorMessages.password : ""}</p>
+						<input onChange={this.handleChange} type="password" name="password" className="text-field password" placeholder="Password"/>
+					</div>
+
 					<input type="submit" name="signup" className="def-button signup" value="Sign up"/>
 				</form>
 				<div className="form-pointer">

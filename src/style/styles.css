@@ -813,7 +813,7 @@
 .signup-form {
     position: relative;
     width: 40%;
-    height: 48vh;
+    height: 55vh;
     background-color: #fff;
     border: 1px solid #e7e7e7;
     margin: 20vh auto auto;
@@ -829,12 +829,17 @@
     background-size: 80%
 }
 
+.signup-form .input-box {
+    position: relative;
+    width: 100%;
+}
+
 .signup-form .text-field {
     position: relative;
     display: block;
     width: 89%;
     font-size: .9em;
-    margin: auto auto .444em;
+    margin: auto auto 1.5em;
     padding-top: .667em;
     padding-bottom: .667em;
     border-radius: 3px
@@ -847,10 +852,12 @@
 
 .signup-form .err {
     position: absolute;
-    top: -14px;
+    top: -1.5em;
+    left: 0;
     font-size: 12px;
-    left: 105px;
+    left: 10px;
     color:red;
+    z-index: 10;
 }
 
 .signup-form .signup {
@@ -859,7 +866,7 @@
     background-color: #3897f0;
     color: #fff;
     width: 89%;
-    margin: 2.25em auto auto
+    margin: 1.5em auto auto
 }
 
 .form-pointer {
