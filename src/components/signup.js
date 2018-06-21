@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Loading from './loader/Loading';
 
 class SignUp extends Component {
 	constructor() {
@@ -12,7 +13,8 @@ class SignUp extends Component {
 				password: ""
 			},
 			errorMessages: {},
-			redirect: false
+			redirect: false,
+			loading: false
 		};
 
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,15 +53,16 @@ class SignUp extends Component {
 		let data = this.state.signupDetails;
 
 		if(data['username'] !== "" && data['password'] !== "" && data['email'] !== "") {
+			this.setState({loading: true});
 			axios({
 				method: "post",
 				url: "http://192.168.99.100:4000/api/v1/user/register",
 				data: data
 			})
 			.then(response => {
-				console.log(response);
 				let { id } = response.data;
 				if(id) {
+					this.setState({loading: false});
 					this.setState({redirect: true});
 				}
 			})
@@ -97,12 +100,15 @@ class SignUp extends Component {
 					</div>
 
 					<input type="submit" name="signup" className="def-button signup" value="Sign up"/>
+					<div>
+						{this.state.loading ? <Loading/> : ""}
+					</div>
 				</form>
 				<div className="form-pointer">
 					<p className="msg">Have an account? <a href="login.html" className="link">Log in</a></p>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
